@@ -1,0 +1,31 @@
+id: OpenAI
+name: OpenAI
+version: 0.0.1
+
+description: <__trans phrase="This plugin provides utility functions using OpenAI.">
+author_name: Six Apart Ltd.
+author_link: http://www.movabletype.org/
+plugin_link: https://github.com/movabletype/mt-plugin-OpenAI/
+
+settings:
+  open_ai_api_key:
+    Default: ""
+
+system_config_template: open_ai_system_config.tmpl
+
+
+l10n_lexicon:
+  ja:
+    "This plugin provides utility functions using OpenAI.": "OpenAIを利用した機能を提供します。"
+    "Generate title by OpenAI": "タイトル候補を生成"
+    "Generate title by OpenAI (s)": "タイトル候補を生成 (s)"
+    "You can use the following content to generate title suggestions. The content should be no more than 250 characters. It may take up to 30 seconds to generate candidates. If an error occurs, please leave some time and try again.": "以下の内容を使って使ってタイトルの候補を生成できます。内容は250文字以内でお願いします。候補を出す際に30秒ほどかかる場合があります。エラーが発生したら時間を置いてもう一度試してください。"
+    "The following five title candidates were generated.": "以下の5つのタイトル候補が生成されました。"
+
+callbacks:
+  MT::App::CMS::template_param.edit_entry: $OpenAI::MT::Plugin::OpenAI::template_param_edit_entry
+
+applications:
+  cms:
+    methods:
+      open_ai_generate_title: $OpenAI::MT::Plugin::OpenAI::generate_title

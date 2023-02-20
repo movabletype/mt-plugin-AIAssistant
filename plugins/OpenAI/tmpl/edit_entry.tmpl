@@ -1,0 +1,50 @@
+<mt:SetVarBlock name="js_include" append="1">
+<__trans_section component="OpenAI">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="<mt:Var name="plugin_open_ai_static_path" />/dist/edit_entry.min.js?v=<mt:Var name="plugin_open_ai_version" />" defer></script>
+  <link rel="stylesheet" href="<mt:Var name="plugin_open_ai_static_path" />/dist/edit_entry.min.css?v=?v=<mt:Var name="plugin_open_ai_version" />" />
+  <template id="plugin-open-ai-open-hint">
+    <a href="#"><i class="fa-solid fa-lightbulb"></i></a>
+  </template>
+
+  <template id="plugin-open-ai-hint-modal">
+    <div class="plugin-open-ai-hint-modal">
+    <div class="modal-header">
+       <h4 class="modal-title"><__trans phrase="Generate title by OpenAI" /></h4>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+    </div>
+    <div class="modal-body">
+        <__trans phrase="You can use the following content to generate title suggestions. The content should be no more than 250 characters. It may take up to 30 seconds to generate candidates. If an error occurs, please leave some time and try again." />
+        <textarea class="form-control text full high" maxlength="250"></textarea>
+        <div id="plugin-open-ai-result" style="margin-top: 10px; display: none; visibility: hidden;">
+          <__trans phrase="The following five title candidates were generated." />
+          <ul style="margin-top: 10px;">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="actions-bar actions-bar-bottom plugin-open-ai-before-generate">
+          <button type="submit" accesskey="s" title="<__trans phrase="Generate title by OpenAI (s)" />" class="action primary button btn btn-primary">
+            <__trans phrase="Generate title by OpenAI" />
+          </button>
+          <button type="submit" accesskey="x" class="cancel action button mt-close-dialog btn btn-default" data-mt-modal-close="" title="<__trans phrase="Cancel (x)" />">
+            <__trans phrase="Cancel" />
+          </button>
+        </div>
+        <div class="actions-bar actions-bar-bottom plugin-open-ai-after-generate" style="display: none">
+          <button type="submit" accesskey="x" class="cancel action button mt-close-dialog btn btn-default" data-mt-modal-close="" title="<__trans phrase="Close (x)" />">
+            <__trans phrase="Close" />
+          </button>
+        </div>
+    </div>
+    </div>
+  </template>
+</__trans_section>
+</mt:SetVarBlock>
