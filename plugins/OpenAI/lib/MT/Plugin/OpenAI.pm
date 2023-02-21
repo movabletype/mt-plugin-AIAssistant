@@ -90,7 +90,7 @@ sub generate_title {
                     prompt => <<PROMPT,
 I want you to act as a title generator for written pieces. I will provide you with the first part of an article, and you will generate five attention-grabbing titles in Japanese. Please keep the title concise and under 20 words, and ensure that the meaning is maintained. My topic is
 
-@{[scalar $app->param('content')]}
+@{[substr(scalar $app->param('content'), 0, 250)]}
 PROMPT
                     ,
                     temperature => 0.6,
