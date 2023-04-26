@@ -38,3 +38,4 @@ applications:
   cms:
     methods:
       open_ai_generate_title: $OpenAI::MT::Plugin::OpenAI::generate_title
+      open_ai_generate_basename: $OpenAI::MT::Plugin::OpenAI::generate_basename
