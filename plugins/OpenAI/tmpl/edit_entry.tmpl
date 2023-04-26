@@ -10,35 +10,49 @@
   <template id="plugin-open-ai-hint-modal">
     <div class="plugin-open-ai-hint-modal">
     <div class="modal-header">
-       <h4 class="modal-title"><__trans phrase="Generate title by OpenAI" /></h4>
+       <h4 class="modal-title"><__trans phrase="Ask Title Suggestions" /></h4>
        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
          <span aria-hidden="true">&times;</span>
        </button>
     </div>
     <div class="modal-body">
-        <__trans phrase="You can use the following content to generate title suggestions. The content should be no more than 250 characters. It may take up to 30 seconds to generate candidates. If an error occurs, please leave some time and try again." />
-        <textarea class="form-control text full high" maxlength="250"></textarea>
+        <__trans phrase="You can ask title suggestions from the following content. It will take about 30 seconds at most to reply. The content must be within [_1] characters. If some error occurs, please try again later" params="1000"/>
+        <textarea class="form-control text full high" maxlength="1000"></textarea>
+        <label><__trans phrase="Title Flavor" /></label>
+        <select class="form-control" name="flavor">
+            <option value="attractive"><__trans phrase="Attention-grabbing Title" /></option>
+            <option value="socratic"><__trans phrase="Inquiring Title" /></option>
+            <option value="model"><__trans phrase="Model Title" /></option>
+            <option value="scientific"><__trans phrase="Descriptive Title" /></option>
+            <option value="dreamy"><__trans phrase="Dreamy Title" /></option>
+        </select>
         <div id="plugin-open-ai-result" style="margin-top: 10px; display: none; visibility: hidden;">
-          <__trans phrase="The following five title candidates were generated." />
-          <ul style="margin-top: 10px;">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
+          <__trans phrase="The following five title candidates were generated" />
+          <div style="margin-top: 10px;" class="list-group">
+            <label class="list-group-item border-0"></label>
+            <label class="list-group-item border-0"></label>
+            <label class="list-group-item border-0"></label>
+            <label class="list-group-item border-0"></label>
+            <label class="list-group-item border-0"></label>
+          </div>
         </div>
     </div>
     <div class="modal-footer">
         <div class="actions-bar actions-bar-bottom plugin-open-ai-before-generate">
-          <button type="submit" accesskey="s" title="<__trans phrase="Generate title by OpenAI (s)" />" class="action primary button btn btn-primary">
-            <__trans phrase="Generate title by OpenAI" />
+          <button type="submit" accesskey="s" title="<__trans phrase="Ask Title Suggestions (s)" />" class="action primary button btn btn-primary" id="generate-title">
+            <__trans phrase="Ask Title Suggestions" />
           </button>
           <button type="submit" accesskey="x" class="cancel action button mt-close-dialog btn btn-default" data-mt-modal-close="" title="<__trans phrase="Cancel (x)" />">
             <__trans phrase="Cancel" />
           </button>
         </div>
         <div class="actions-bar actions-bar-bottom plugin-open-ai-after-generate" style="display: none">
+          <button type="submit" accesskey="s" title="<__trans phrase="Apply Suggested Title (s)" />" class="action primary button btn btn-primary" disabled id="apply-suggested-title">
+            <__trans phrase="Apply Suggested Title" />
+          </button>
+          <button type="submit" class="action button btn btn-default" data-mt-modal-close="" title="<__trans phrase="Ask Title Suggestions Again" />" id="generate-title-again">
+            <__trans phrase="Ask Title Suggestions Again" />
+          </button>
           <button type="submit" accesskey="x" class="cancel action button mt-close-dialog btn btn-default" data-mt-modal-close="" title="<__trans phrase="Close (x)" />">
             <__trans phrase="Close" />
           </button>

@@ -74,27 +74,85 @@ sub template_param_edit_entry {
 sub generate_title {
     my ($app) = @_;
 
+    my %flavors = (
+      attractive => [
+        {
+          role => "system",
+          content => <<CONTENT,
+I want you to act as a title generator. A user will provide you with the first part of an article and you will generate five titles in the following steps.
+
+1. read the article and think its strengths. You don't have to output your thought.
+2. generate 5 attention-grabbing titles in Japanese based on your thought. Keep in mind that they are well maintained within 40 characters.
+CONTENT
+        },
+      ],
+      socratic => [
+        {
+          role => "system",
+          content => <<CONTENT,
+I want you to act as a Socrat. A user will provide you with the first part of an article and you will generate five questions in the following steps.
+
+1. read the article and think with the Socratic method of questioning to explore topics such as justice, virtue, beauty, courage and other ethical issues to engage in philosophical discussions. You don't have to output your thought.
+2. generate 5 questions in Japanese based on your thought. Keep in mind that they are well maintained within 40 characters.
+CONTENT
+        },
+      ],
+      model => [
+        {
+          role => "system",
+          content => <<CONTENT,
+I want you to act as an instructor, teaching how to write for beginners. A user will provide you with the first part of an article and you will generate five titles in the following steps.
+
+1. read the article and think its strengths. You don't have to output your thought.
+2. generate 5 plain titles in Japanese based on your thought. Keep in mind that they are plain and simple within 40 characters. You must not use any symbols such as "!", "?".
+CONTENT
+        },
+      ],
+      scientific => [
+        {
+          role => "system",
+          content => <<CONTENT,
+I want you to act as a journal reviewer. A user will provide you with the first part of an article and you will generate five titles in the following steps.
+
+1. read the article and think the constructive criticism on its strengths and weaknesses. You don't have to output your thought.
+2. generate 5 academic titles in Japanese based on your thought. Keep in mind that they are academic, well descriptive and verbose within 100 characters.
+CONTENT
+        },
+      ],
+      dreamy => [
+        {
+          role => "system",
+          content => <<CONTENT,
+I want you to act as a dream interpreter. A user will provide you with the first part of an article and you will generate five titles in the following steps.
+
+1. read the article and think its ideal situation. You don't have to output your thought.
+2. generate 5 dreamy titles in Japanese based on your thought. Keep in mind that they give positive feelings within 40 characters.
+CONTENT
+        },
+      ],
+    );
+    my $messages = $flavors{$app->param('flavor')} || $flavors{attractive};
+    push @$messages, {
+      role => "user",
+      content => 'ARTICLE: ' . substr(scalar $app->param('content'), 0, 1000),
+    };
+
     my $api_key = api_key();
 
     my $ua  = MT->new_ua( { timeout => 60 } );
     my $req = HTTP::Request->new(
         'POST',
-        'https://api.openai.com/v1/completions',
+        'https://api.openai.com/v1/chat/completions',
         [   'Content-Type'  => 'application/json',
             'Authorization' => "Bearer $api_key",
         ],
         Encode::encode(
             'UTF-8',
             MT::Util::to_json(
-                {   model  => 'text-davinci-003',
-                    prompt => <<PROMPT,
-I want you to act as a title generator for written pieces. I will provide you with the first part of an article, and you will generate five attention-grabbing titles in Japanese. Please keep the title concise and under 20 words, and ensure that the meaning is maintained. My topic is
-
-@{[substr(scalar $app->param('content'), 0, 250)]}
-PROMPT
-                    ,
+                {   model       => 'gpt-3.5-turbo',
+                    messages    => $messages,
                     temperature => 0.6,
-                    max_tokens  => 1500,
+                    max_tokens  => 2046,
                 }
             )
         )

@@ -35,6 +35,9 @@ titleWrap.querySelector("a")!.addEventListener("click", async (ev) => {
     .replace(/<.*?>/g, "")
     .trim()
     .substring(0, 250);
+  const flavor = modalWrap.querySelector<HTMLInputElement>(
+    `select[name="flavor"]`
+  )!;
 
   modalWrap
     .querySelectorAll(`[data-dismiss="modal"], .mt-close-dialog`)
@@ -44,65 +47,103 @@ titleWrap.querySelector("a")!.addEventListener("click", async (ev) => {
       });
     });
   const generateButton =
-    modalWrap.querySelector<HTMLButtonElement>(".btn-primary")!;
-  generateButton.addEventListener("click", async (ev) => {
-    ev.preventDefault();
-    generateButton.disabled = true;
-    generateButton.classList.add("disabled");
-
-    const result = document.querySelector<HTMLDivElement>(
-      "#plugin-open-ai-result"
-    )!;
-    result.style.display = "";
-
-    const spinner = document.createElement("div");
-    spinner.classList.add("plugin-open-ai-spinner");
-    spinner.innerHTML = `<i class="fas fa-spinner fa-pulse"></i>`;
-    result.parentNode?.insertBefore(spinner, result);
-
-    const submitData = {
-      __mode: "open_ai_generate_title",
-      magic_token: entryFormData.magic_token,
-      content: textarea.value,
-    };
-    const formData = new FormData();
-    Object.keys(submitData).forEach((key) => {
-      formData.append(key, submitData[key]);
-    });
-    const {
-      result: { choices },
-    } = await (
-      await fetch(parent.CMSScriptURI, {
-        method: "POST",
-        body: formData,
-      })
-    ).json();
-
-    spinner.remove();
-
-    const list = result.querySelector("ul")!;
-    list.innerHTML = "";
-    choices[0].text
-      .trim()
-      .split("\n")
-      .forEach((line) => {
-        const li = document.createElement("li");
-        li.textContent = line.replace(/\d\.\s*/, "");
-        list.appendChild(li);
-      });
-
-    result.style.visibility = "";
-    modalWrap
-      .querySelectorAll<HTMLElement>(`.plugin-open-ai-before-generate`)
-      .forEach((e) => {
-        e.style.display = "none";
-      });
-    modalWrap
-      .querySelectorAll<HTMLElement>(`.plugin-open-ai-after-generate`)
-      .forEach((e) => {
-        e.style.display = "";
-      });
+    modalWrap.querySelector<HTMLButtonElement>("#generate-title")!;
+  const generateAgainButton = modalWrap.querySelector<HTMLButtonElement>(
+    "#generate-title-again"
+  )!;
+  const applySuggestedTitleButton = modalWrap.querySelector<HTMLButtonElement>(
+    "#apply-suggested-title"
+  )!;
+  applySuggestedTitleButton.addEventListener("click", () => {
+    const value = [
+      ...modalWrap.querySelectorAll<HTMLInputElement>(
+        `input[name="generated-title"]`
+      ),
+    ].filter((input) => input.checked)[0].value;
+    title.value = value;
+    jQuery.fn.mtModal.close();
   });
+  [generateButton, generateAgainButton].forEach((button) =>
+    button.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      generateButton.disabled = true;
+      generateAgainButton.disabled = true;
+      applySuggestedTitleButton.disabled = true;
+      applySuggestedTitleButton.classList.add("d-none");
+
+      const result = document.querySelector<HTMLDivElement>(
+        "#plugin-open-ai-result"
+      )!;
+      result.style.display = "";
+      result.style.visibility = "hidden";
+
+      const spinner = document.createElement("div");
+      spinner.classList.add("plugin-open-ai-spinner");
+      spinner.innerHTML = `<i class="fas fa-spinner fa-pulse"></i>`;
+      result.parentNode?.insertBefore(spinner, result);
+
+      const submitData = {
+        __mode: "open_ai_generate_title",
+        magic_token: entryFormData.magic_token,
+        content: textarea.value,
+        flavor: flavor.value,
+      };
+      const formData = new FormData();
+      Object.keys(submitData).forEach((key) => {
+        formData.append(key, submitData[key]);
+      });
+      const {
+        result: { choices },
+      } = await (
+        await fetch(parent.CMSScriptURI, {
+          method: "POST",
+          body: formData,
+        })
+      ).json();
+
+      spinner.remove();
+
+      const list = result.querySelector(".list-group")!;
+      list.innerHTML = "";
+      choices[0].message.content
+        .trim()
+        .split("\n")
+        .forEach((line) => {
+          const item = document.createElement("label");
+          item.className = "list-group-item border-0 pt-0 pb-0";
+          line = line
+            .replace(/\d\.\s*/, "")
+            .replace(/^"(.*)"$/, "$1")
+            .replace(/^「(.*)」$/, "$1");
+          item.textContent = line;
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "generated-title";
+          input.value = line;
+          input.addEventListener("click", () => {
+            applySuggestedTitleButton.disabled = false;
+          });
+          input.classList.add("form-check-input");
+          item.prepend(input);
+          list.appendChild(item);
+        });
+
+      result.style.visibility = "";
+      modalWrap
+        .querySelectorAll<HTMLElement>(`.plugin-open-ai-before-generate`)
+        .forEach((e) => {
+          e.style.display = "none";
+        });
+      modalWrap
+        .querySelectorAll<HTMLElement>(`.plugin-open-ai-after-generate`)
+        .forEach((e) => {
+          e.style.display = "";
+        });
+
+      generateAgainButton.disabled = false;
+      applySuggestedTitleButton.classList.remove("d-none");
+    })
+  );
   jQuery(".mt-modal").one("hidden.bs.modal", () => {
     modalWrap.innerHTML = "";
     const iframe = modalWrap.querySelector("iframe");
