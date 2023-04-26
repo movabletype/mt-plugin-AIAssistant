@@ -1,6 +1,6 @@
 id: OpenAI
 name: OpenAI
-version: 0.0.2
+version: 0.0.3
 
 description: <__trans phrase="This plugin provides utility functions using OpenAI.">
 author_name: Six Apart Ltd.
