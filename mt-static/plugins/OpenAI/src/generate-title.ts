@@ -33,7 +33,7 @@ export function init() {
     textarea.value = (entryFormData.text + "\n" + entryFormData.text_more)
       .replace(/<.*?>/g, "")
       .trim()
-      .substring(0, 250);
+      .substring(0, 1000);
     const flavor = modalWrap.querySelector<HTMLInputElement>(
       `select[name="flavor"]`
     )!;
