@@ -2,7 +2,7 @@ id: OpenAI
 name: OpenAI
 version: 0.0.4
 
-description: <__trans phrase="This plugin provides utility functions using OpenAI.">
+description: <__trans phrase="Provides AI-based utility functions. This plugin is Powered by ChatGPT API.">
 author_name: Six Apart Ltd.
 author_link: http://www.movabletype.org/
 plugin_link: https://github.com/movabletype/mt-plugin-OpenAI/
@@ -15,7 +15,7 @@ system_config_template: open_ai_system_config.tmpl
 
 l10n_lexicon:
   ja:
-    "This plugin provides utility functions using OpenAI.": "OpenAIを利用した機能を提供します。"
+    "Provides AI-based utility functions. This plugin is Powered by ChatGPT API.": "AIを活用した機能を追加します。このプラグインはChatGPT APIを搭載しています。"
     "Ask Title Suggestions": "AIタイトル提案"
     "Ask Title Suggestions (s)": "AIタイトル提案 (s)"
     "You can ask title suggestions from the following content. It will take about 30 seconds at most to reply. The content must be within [_1] characters. If some error occurs, please try again later": "テキストの内容からタイトルを提案します。内容は[_1]字以内でお願いします。タイトル案の結果が出るのに最長30秒かかります。エラーが発生した場合は時間を置いてもう一度試してください。"
