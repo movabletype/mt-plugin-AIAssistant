@@ -33,6 +33,7 @@ l10n_lexicon:
 
 callbacks:
   MT::App::CMS::template_param.edit_entry: $OpenAI::MT::Plugin::OpenAI::template_param_edit_entry
+  MT::App::CMS::template_param.edit_content_data: $OpenAI::MT::Plugin::OpenAI::template_param_edit_entry
 
 applications:
   cms:

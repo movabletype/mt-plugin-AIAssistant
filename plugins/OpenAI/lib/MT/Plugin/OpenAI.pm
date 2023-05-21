@@ -51,6 +51,17 @@ sub template_param_edit_entry {
     };
     my $version = plugin()->version;
 
+    my $data_label_field;
+    if ( my $ct_id = $app->param('content_type_id') ) {
+        my $ct = $app->model('content_type')->load($ct_id)
+            or return;
+        $data_label_field = $ct->data_label && MT->model('content_field')->load(
+            {   content_type_id => $ct->id,
+                unique_id       => $ct->data_label,
+            }
+        );
+    }
+
     insert_after( $tmpl, 'edit_screen', 'edit_entry.tmpl' );
     insert_after(
         $tmpl,
@@ -67,6 +78,12 @@ sub template_param_edit_entry {
                     value => $version,
                 }
             ),
+            ($data_label_field ? ($tmpl->createElement(
+                'var',
+                {   name  => 'plugin_open_ai_data_label_field_name',
+                    value => 'content-field-' . $data_label_field->id,
+                }
+            )) : ()),
         ]
     );
 }

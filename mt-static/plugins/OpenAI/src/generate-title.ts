@@ -1,5 +1,7 @@
+import { getTitleElement } from "./util";
+
 export function init() {
-  const title = document.querySelector<HTMLInputElement>("#title")!;
+  const title = getTitleElement();
   const titleWrap = document.createElement("div");
   titleWrap.classList.add("open-ai-input-wrap");
   title.parentNode?.insertBefore(titleWrap, title);
@@ -30,7 +32,30 @@ export function init() {
       document.querySelector(`form[method="post"]`)!
     );
     const textarea = modalWrap.querySelector<HTMLInputElement>("textarea")!;
-    textarea.value = (entryFormData.text + "\n" + entryFormData.text_more)
+    textarea.value = Object.keys(entryFormData)
+      .map((key) => {
+        if (key.match(/^(?:text|text_more)$/)) {
+          return entryFormData[key];
+        } else if (key.match(/^content-field-\d+_convert_breaks$/)) {
+          const m = key.match(/^(content-field-(\d+))_convert_breaks$/) || [];
+          const cb = entryFormData[key];
+          if (cb === "blockeditor") {
+            const be = JSON.parse(entryFormData["block_editor_data"])[
+              `editor-input-content-field-${m[2]}-blockeditor`
+            ] as Record<string, { order: number; html: string }>;
+            return Object.values(be)
+              .sort((a, b) => a.order - b.order)
+              .map((v) => v.html)
+              .join("\n");
+          } else {
+            return entryFormData[m[1]];
+          }
+        } else {
+          return undefined;
+        }
+      })
+      .filter((v) => v)
+      .join("\n")
       .replace(/<.*?>/g, "")
       .trim()
       .substring(0, 1000);
