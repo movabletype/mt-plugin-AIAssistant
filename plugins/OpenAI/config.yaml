@@ -1,6 +1,6 @@
 id: OpenAI
 name: OpenAI
-version: 0.0.5
+version: 0.0.6
 
 description: <__trans phrase="Provides AI-based utility functions. This plugin is Powered by ChatGPT API.">
 author_name: Six Apart Ltd.

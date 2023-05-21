@@ -47,6 +47,10 @@ export function init() {
               .sort((a, b) => a.order - b.order)
               .map((v) => v.html)
               .join("\n");
+          } else if (cb === "block_editor") {
+            return document.querySelector<HTMLInputElement>(
+              `#editor-input-content-field-${m[2]}-mt-be`
+            )!.value;
           } else {
             return entryFormData[m[1]];
           }
