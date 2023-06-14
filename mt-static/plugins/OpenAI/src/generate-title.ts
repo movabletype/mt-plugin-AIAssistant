@@ -133,28 +133,31 @@ export function init() {
 
         const list = result.querySelector(".list-group")!;
         list.innerHTML = "";
-        choices[0].message.content
-          .trim()
-          .split("\n")
-          .forEach((line) => {
-            const item = document.createElement("label");
-            item.className = "list-group-item border-0 pt-0 pb-0";
-            line = line
-              .replace(/\d\.\s*/, "")
-              .replace(/^"(.*)"$/, "$1")
-              .replace(/^「(.*)」$/, "$1");
-            item.textContent = line;
-            const input = document.createElement("input");
-            input.type = "radio";
-            input.name = "generated-title";
-            input.value = line;
-            input.addEventListener("click", () => {
-              applySuggestedTitleButton.disabled = false;
-            });
-            input.classList.add("form-check-input");
-            item.prepend(input);
-            list.appendChild(item);
+        let lines;
+        try {
+          lines = JSON.parse(choices[0].message.content);
+        } catch (e) {
+          lines = choices[0].message.content.trim().split("\n");
+        }
+        lines.forEach((line) => {
+          const item = document.createElement("label");
+          item.className = "list-group-item border-0 pt-0 pb-0";
+          line = line
+            .replace(/\d\.\s*/, "")
+            .replace(/^"(.*)"$/, "$1")
+            .replace(/^「(.*)」$/, "$1");
+          item.textContent = line;
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "generated-title";
+          input.value = line;
+          input.addEventListener("click", () => {
+            applySuggestedTitleButton.disabled = false;
           });
+          input.classList.add("form-check-input");
+          item.prepend(input);
+          list.appendChild(item);
+        });
 
         result.style.visibility = "";
         modalWrap

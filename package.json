@@ -1,5 +1,5 @@
 {
-  "name": "mt-plugin-imate-template",
+  "name": "mt-plugin-open-ai",
   "version": "1.0.0",
   "description": "This is a plugin for the Movable Type. This plugin enables you to convert movie before uploading by ffmpeg.",
   "main": "",

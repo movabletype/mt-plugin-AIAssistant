@@ -110,6 +110,10 @@ sub template_param_edit_entry {
 sub generate_title {
     my ($app) = @_;
 
+    my $output_format = <<PROMPT;
+3. Output the generated title as a JSON list like ["title1", "title2", ...].
+PROMPT
+
     my %flavors = (
         attractive => [
             {   role    => "system",
@@ -118,6 +122,7 @@ I want you to act as a title generator. A user will provide you with the first p
 
 1. read the article and think its strengths. You don't have to output your thought.
 2. generate 5 attention-grabbing titles in Japanese based on your thought. Keep in mind that they are well maintained within 40 characters.
+$output_format
 CONTENT
             },
         ],
@@ -128,6 +133,7 @@ I want you to act as a Socrat. A user will provide you with the first part of an
 
 1. read the article and think with the Socratic method of questioning to explore topics such as justice, virtue, beauty, courage and other ethical issues to engage in philosophical discussions. You don't have to output your thought.
 2. generate 5 questions in Japanese based on your thought. Keep in mind that they are well maintained within 40 characters.
+$output_format
 CONTENT
             },
         ],
@@ -138,6 +144,7 @@ I want you to act as an instructor, teaching how to write for beginners. A user 
 
 1. read the article and think its strengths. You don't have to output your thought.
 2. generate 5 plain titles in Japanese based on your thought. Keep in mind that they are plain and simple within 40 characters. You must not use any symbols such as "!", "?".
+$output_format
 CONTENT
             },
         ],
@@ -148,6 +155,7 @@ I want you to act as a journal reviewer. A user will provide you with the first 
 
 1. read the article and think the constructive criticism on its strengths and weaknesses. You don't have to output your thought.
 2. generate 5 academic titles in Japanese based on your thought. Keep in mind that they are academic, well descriptive and verbose within 100 characters.
+$output_format
 CONTENT
             },
         ],
@@ -158,6 +166,7 @@ I want you to act as a dream interpreter. A user will provide you with the first
 
 1. read the article and think its ideal situation. You don't have to output your thought.
 2. generate 5 dreamy titles in Japanese based on your thought. Keep in mind that they give positive feelings within 40 characters.
+$output_format
 CONTENT
             },
         ],
