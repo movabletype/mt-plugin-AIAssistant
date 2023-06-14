@@ -17,8 +17,8 @@
        </button>
     </div>
     <div class="modal-body">
-        <__trans phrase="You can ask title suggestions from the following content. It will take about 30 seconds at most to reply. The content must be within [_1] characters. If some error occurs, please try again later" params="1000"/>
-        <textarea class="form-control text full high" maxlength="1000"></textarea>
+        <__trans phrase="You can ask title suggestions from the following content. It will take about 30 seconds at most to reply. The content must be within [_1] characters. If some error occurs, please try again later" params="<mt:Var name="plugin_open_ai_max_input_tokens" />"/>
+        <textarea class="form-control text full high" maxlength="<mt:Var name="plugin_open_ai_max_input_tokens" />"></textarea>
         <label><__trans phrase="Title Flavor" /></label>
         <select class="form-control" name="flavor">
             <option value="attractive"><__trans phrase="Attention-grabbing Title" /></option>

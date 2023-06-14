@@ -10,6 +10,8 @@ plugin_link: https://github.com/movabletype/mt-plugin-OpenAI/
 settings:
   open_ai_api_key:
     Default: ""
+  open_ai_allow_16k:
+    Default: "1"
 
 system_config_template: open_ai_system_config.tmpl
 
@@ -30,6 +32,8 @@ l10n_lexicon:
     "Apply Suggested Title": "タイトル案を採用する"
     "Apply Suggested Title (s)": "タイトル案を採用する (s)"
     "Ask Title Suggestions Again": "もう一度タイトル案を出す"
+    "Allow to use gpt-3.5-turbo-16k": "gpt-3.5-turbo-16kの利用を許可する"
+    "If checked, the number of characters in the original text of the title can be increased up to 4000 characters.": "チェックを入れるとタイトルの元になるテキストの文字数を4000文字まで増やすことができます。"
 
 callbacks:
   MT::App::CMS::template_param.edit_entry: $OpenAI::MT::Plugin::OpenAI::template_param_edit_entry

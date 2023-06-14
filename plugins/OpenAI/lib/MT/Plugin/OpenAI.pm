@@ -7,6 +7,9 @@ use utf8;
 use File::Basename qw(basename dirname);
 use HTTP::Request;
 
+our $GPT_3_5_TURBO_INPUT_TOKENS     = 1000;
+our $GPT_3_5_TURBO_16K_INPUT_TOKENS = 4000;
+
 sub component {
     __PACKAGE__ =~ m/::([^:]+)\z/;
 }
@@ -35,6 +38,12 @@ sub insert_after {
 
 sub api_key {
     plugin()->get_config_value('open_ai_api_key');
+}
+
+sub max_input_tokens {
+    plugin()->get_config_value('open_ai_allow_16k')
+        ? $GPT_3_5_TURBO_16K_INPUT_TOKENS
+        : $GPT_3_5_TURBO_INPUT_TOKENS;
 }
 
 sub template_param_edit_entry {
@@ -78,12 +87,22 @@ sub template_param_edit_entry {
                     value => $version,
                 }
             ),
-            ($data_label_field ? ($tmpl->createElement(
+            $tmpl->createElement(
                 'var',
-                {   name  => 'plugin_open_ai_data_label_field_name',
-                    value => 'content-field-' . $data_label_field->id,
+                {   name  => 'plugin_open_ai_max_input_tokens',
+                    value => max_input_tokens(),
                 }
-            )) : ()),
+            ),
+            (   $data_label_field
+                ? ( $tmpl->createElement(
+                        'var',
+                        {   name  => 'plugin_open_ai_data_label_field_name',
+                            value => 'content-field-' . $data_label_field->id,
+                        }
+                    )
+                    )
+                : ()
+            ),
         ]
     );
 }
@@ -144,10 +163,11 @@ CONTENT
         ],
     );
     my $messages = $flavors{ $app->param('flavor') } || $flavors{attractive};
+    my $content  = substr( scalar $app->param('content'), 0, max_input_tokens() );
     push @$messages,
         {
         role    => "user",
-        content => 'ARTICLE: ' . substr( scalar $app->param('content'), 0, 1000 ),
+        content => 'ARTICLE: ' . $content,
         };
 
     my $api_key = api_key();
@@ -162,7 +182,9 @@ CONTENT
         Encode::encode(
             'UTF-8',
             MT::Util::to_json(
-                {   model       => 'gpt-3.5-turbo',
+                {   model => length($content) > $GPT_3_5_TURBO_INPUT_TOKENS
+                    ? 'gpt-3.5-turbo-16k'
+                    : 'gpt-3.5-turbo',
                     messages    => $messages,
                     temperature => 0.6,
                     max_tokens  => 2046,
@@ -184,7 +206,7 @@ CONTENT
 sub generate_basename {
     my ($app) = @_;
 
-    my $content = substr( scalar $app->param('content'), 0, 1000 );
+    my $content = substr( scalar $app->param('content'), 0, max_input_tokens() );
 
     my $messages = [
         {   role    => "system",
@@ -198,7 +220,7 @@ The format is JSON, as shown below.
 CONTENT
         },
         {   role    => "user",
-            content => 'TITLE: ' . substr( scalar $app->param('content'), 0, 1000 ),
+            content => 'TITLE: ' . substr( scalar $app->param('content'), 0, max_input_tokens() ),
         }
     ];
 

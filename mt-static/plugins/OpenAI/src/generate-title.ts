@@ -62,7 +62,7 @@ export function init() {
       .join("\n")
       .replace(/<.*?>/g, "")
       .trim()
-      .substring(0, 1000);
+      .substring(0, textarea.maxLength);
     const flavor = modalWrap.querySelector<HTMLInputElement>(
       `select[name="flavor"]`
     )!;
