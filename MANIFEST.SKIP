@@ -36,6 +36,6 @@ docker-compose.yml
 ^docs/
 
 # source files
-mt-static/plugins/OpenAI/typings/
-mt-static/plugins/OpenAI/src/
-mt-static/plugins/OpenAI/css/
+mt-static/plugins/AIAssistant/typings/
+mt-static/plugins/AIAssistant/src/
+mt-static/plugins/AIAssistant/css/

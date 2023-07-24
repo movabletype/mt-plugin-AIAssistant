@@ -1,4 +1,4 @@
-package MT::Plugin::OpenAI;
+package MT::Plugin::AIAssistant;
 
 use strict;
 use warnings;
@@ -37,11 +37,11 @@ sub insert_after {
 }
 
 sub api_key {
-    plugin()->get_config_value('open_ai_api_key');
+    plugin()->get_config_value('ai_assistant_api_key');
 }
 
 sub max_input_tokens {
-    plugin()->get_config_value('open_ai_allow_16k')
+    plugin()->get_config_value('ai_assistant_allow_16k')
         ? $GPT_3_5_TURBO_16K_INPUT_TOKENS
         : $GPT_3_5_TURBO_INPUT_TOKENS;
 }
@@ -77,26 +77,26 @@ sub template_param_edit_entry {
         'edit_screen',
         [   $tmpl->createElement(
                 'var',
-                {   name  => 'plugin_open_ai_static_path',
+                {   name  => 'plugin_ai_assistant_static_path',
                     value => $static_path,
                 }
             ),
             $tmpl->createElement(
                 'var',
-                {   name  => 'plugin_open_ai_version',
+                {   name  => 'plugin_ai_assistant_version',
                     value => $version,
                 }
             ),
             $tmpl->createElement(
                 'var',
-                {   name  => 'plugin_open_ai_max_input_tokens',
+                {   name  => 'plugin_ai_assistant_max_input_tokens',
                     value => max_input_tokens(),
                 }
             ),
             (   $data_label_field
                 ? ( $tmpl->createElement(
                         'var',
-                        {   name  => 'plugin_open_ai_data_label_field_name',
+                        {   name  => 'plugin_ai_assistant_data_label_field_name',
                             value => 'content-field-' . $data_label_field->id,
                         }
                     )

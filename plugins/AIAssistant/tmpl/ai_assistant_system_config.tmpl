@@ -1,0 +1,17 @@
+<mtapp:setting
+  id="ai_assistant_api_key"
+  label="<__trans phrase="API Key">"
+>
+<input type="text" id="ai_assistant_api_key" name="ai_assistant_api_key" value="<mt:Var name="ai_assistant_api_key" encode_html="1"/>" class="form-control" />
+</mtapp:setting>
+
+<mtapp:setting
+  id="ai_assistant_allow_16k"
+  label="<__trans phrase="Allow to use gpt-3.5-turbo-16k">"
+  hint="<__trans phrase="If checked, the number of characters in the original text of the title can be increased up to 4000 characters.">"
+  show_hint="1"
+>
+<div class="custom-checkbox">
+  <input type="checkbox" id="ai_assistant_allow_16k" name="ai_assistant_allow_16k" value="1" <mt:If name="ai_assistant_allow_16k">checked</mt:If> />
+</div>
+</mtapp:setting>

@@ -10,11 +10,11 @@ module.exports = async function (_, env) {
     mode: isProd ? "production" : "development",
     devtool: isProd ? "source-map" : "inline-source-map",
     entry: {
-      "edit_entry.min": ["./mt-static/plugins/OpenAI/src/edit_entry.ts"],
+      "edit_entry.min": ["./mt-static/plugins/AIAssistant/src/edit_entry.ts"],
     },
     resolve: {
       extensions: [".js", ".jsx", ".ts", ".tsx"],
-      modules: ["node_modules", "mt-static/plugins/OpenAI/src"],
+      modules: ["node_modules", "mt-static/plugins/AIAssistant/src"],
     },
     externals: {
       jquery: "jQuery",
@@ -27,7 +27,7 @@ module.exports = async function (_, env) {
       }),
     ],
     output: {
-      path: path.resolve(__dirname, "mt-static/plugins/OpenAI/dist"),
+      path: path.resolve(__dirname, "mt-static/plugins/AIAssistant/dist"),
       filename: "[name].js",
     },
     module: {

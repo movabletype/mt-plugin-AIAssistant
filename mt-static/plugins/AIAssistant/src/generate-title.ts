@@ -111,7 +111,7 @@ export function init() {
         result.parentNode?.insertBefore(spinner, result);
 
         const submitData = {
-          __mode: "open_ai_generate_title",
+          __mode: "ai_assistant_generate_title",
           magic_token: entryFormData.magic_token,
           content: textarea.value,
           flavor: flavor.value,

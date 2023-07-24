@@ -1,9 +1,9 @@
 <mt:SetVarBlock name="js_include" append="1">
-<__trans_section component="OpenAI">
+<__trans_section component="AIAssistant">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="<mt:Var name="plugin_open_ai_static_path" />/dist/edit_entry.min.js?v=<mt:Var name="plugin_open_ai_version" />" defer></script>
-  <link rel="stylesheet" href="<mt:Var name="plugin_open_ai_static_path" />/dist/edit_entry.min.css?v=?v=<mt:Var name="plugin_open_ai_version" />" />
-  <meta id="plugin-open-ai-data-label-field-name" content="<mt:Var name="plugin_open_ai_data_label_field_name" />" />
+  <script src="<mt:Var name="plugin_ai_assistant_static_path" />/dist/edit_entry.min.js?v=<mt:Var name="plugin_ai_assistant_version" />" defer></script>
+  <link rel="stylesheet" href="<mt:Var name="plugin_ai_assistant_static_path" />/dist/edit_entry.min.css?v=?v=<mt:Var name="plugin_ai_assistant_version" />" />
+  <meta id="plugin-open-ai-data-label-field-name" content="<mt:Var name="plugin_ai_assistant_data_label_field_name" />" />
   <template id="plugin-open-ai-open-hint">
     <a href="#"><i class="fa-solid fa-lightbulb"></i></a>
   </template>
@@ -17,8 +17,8 @@
        </button>
     </div>
     <div class="modal-body">
-        <__trans phrase="You can ask title suggestions from the following content. It will take about 30 seconds at most to reply. The content must be within [_1] characters. If some error occurs, please try again later" params="<mt:Var name="plugin_open_ai_max_input_tokens" />"/>
-        <textarea class="form-control text full high" maxlength="<mt:Var name="plugin_open_ai_max_input_tokens" />"></textarea>
+        <__trans phrase="You can ask title suggestions from the following content. It will take about 30 seconds at most to reply. The content must be within [_1] characters. If some error occurs, please try again later" params="<mt:Var name="plugin_ai_assistant_max_input_tokens" />"/>
+        <textarea class="form-control text full high" maxlength="<mt:Var name="plugin_ai_assistant_max_input_tokens" />"></textarea>
         <label><__trans phrase="Title Flavor" /></label>
         <select class="form-control" name="flavor">
             <option value="attractive"><__trans phrase="Attention-grabbing Title" /></option>

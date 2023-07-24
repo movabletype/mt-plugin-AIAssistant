@@ -21,7 +21,7 @@ async function generate(content, icon) {
     basenameText.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
   }
   const submitData = {
-    __mode: "open_ai_generate_basename",
+    __mode: "ai_assistant_generate_basename",
     magic_token: entryFormData.magic_token,
     content,
   };

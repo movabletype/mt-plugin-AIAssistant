@@ -1,19 +1,19 @@
-id: OpenAI
-name: OpenAI
-version: 0.0.8
+id: AIAssistant
+name: AIAssistant
+version: 1.0.0
 
 description: <__trans phrase="Provides AI-based utility functions. This plugin is powered by ChatGPT API.">
 author_name: Six Apart Ltd.
 author_link: http://www.movabletype.org/
-plugin_link: https://github.com/movabletype/mt-plugin-OpenAI/
+plugin_link: https://github.com/movabletype/mt-plugin-AIAssistant/
 
 settings:
-  open_ai_api_key:
+  ai_assistant_api_key:
     Default: ""
-  open_ai_allow_16k:
+  ai_assistant_allow_16k:
     Default: "1"
 
-system_config_template: open_ai_system_config.tmpl
+system_config_template: ai_assistant_system_config.tmpl
 
 l10n_lexicon:
   ja:
@@ -36,11 +36,11 @@ l10n_lexicon:
     "If checked, the number of characters in the original text of the title can be increased up to 4000 characters.": "チェックを入れるとタイトルの元になるテキストの文字数を4000文字まで増やすことができます。"
 
 callbacks:
-  MT::App::CMS::template_param.edit_entry: $OpenAI::MT::Plugin::OpenAI::template_param_edit_entry
-  MT::App::CMS::template_param.edit_content_data: $OpenAI::MT::Plugin::OpenAI::template_param_edit_entry
+  MT::App::CMS::template_param.edit_entry: $AIAssistant::MT::Plugin::AIAssistant::template_param_edit_entry
+  MT::App::CMS::template_param.edit_content_data: $AIAssistant::MT::Plugin::AIAssistant::template_param_edit_entry
 
 applications:
   cms:
     methods:
-      open_ai_generate_title: $OpenAI::MT::Plugin::OpenAI::generate_title
-      open_ai_generate_basename: $OpenAI::MT::Plugin::OpenAI::generate_basename
+      ai_assistant_generate_title: $AIAssistant::MT::Plugin::AIAssistant::generate_title
+      ai_assistant_generate_basename: $AIAssistant::MT::Plugin::AIAssistant::generate_basename
