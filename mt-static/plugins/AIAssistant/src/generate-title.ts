@@ -11,6 +11,8 @@ export function init() {
   titleWrap.appendChild(title);
   titleWrap.appendChild(openHint);
 
+  let hasRatioClass = false;
+
   titleWrap.querySelector("a")!.addEventListener("click", async (ev) => {
     ev.preventDefault();
     jQuery.fn.mtModal.open(window.StaticURI + "index.html?dialog=1", {
@@ -20,10 +22,17 @@ export function init() {
     const modal = document
       .querySelector<HTMLTemplateElement>("#plugin-open-ai-hint-modal")!
       .content.cloneNode(true) as HTMLElement;
-    const modalWrap = document.querySelector(".mt-modal .modal-content")!;
+    const modalWrap = document.querySelector<HTMLElement>(
+      ".mt-modal .modal-content"
+    )!;
     modalWrap.appendChild(modal);
     modalWrap.querySelector("iframe")!.style.display = "none";
     modalWrap.appendChild(modalWrap.querySelector("iframe")!);
+    if (modalWrap.classList.contains("ratio")) {
+      hasRatioClass = true;
+      modalWrap.classList.remove("ratio");
+    }
+    modalWrap.style.paddingBottom = "";
 
     jQuery(window).trigger("pre_autosave");
     await window.MTBlockEditor?.serialize();
@@ -177,6 +186,9 @@ export function init() {
     );
     jQuery(".mt-modal").one("hidden.bs.modal", () => {
       modalWrap.innerHTML = "";
+      if (hasRatioClass) {
+        modalWrap.classList.add("ratio");
+      }
       const iframe = modalWrap.querySelector("iframe");
       if (iframe) {
         iframe.style.display = "";
