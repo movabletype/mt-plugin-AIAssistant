@@ -113,9 +113,7 @@ sub template_param_ai_assistant_system_config {
     return unless api_key();
 
     my $tail = substr( api_key(), -4 );
-    if ($tail =~ m/\A[0-9A-Fa-z]+\z/) {
-        $$tmpl =~ s{\A}{<mt:SetVarBlock name="masked_ai_assistant_api_key">********$tail</mt:SetVarBlock>};
-    }
+    $$tmpl =~ s{\A}{<mt:SetVarBlock name="masked_ai_assistant_api_key">********$tail</mt:SetVarBlock>};
 }
 
 sub save_config_filter {
