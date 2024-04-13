@@ -1,8 +1,18 @@
+<script type="module" src="<mt:Var name="static_uri">plugins/AIAssistant/dist/system_config.min.js"></script>
+
 <mtapp:setting
   id="ai_assistant_api_key"
   label="<__trans phrase="API Key">"
 >
-<input type="text" id="ai_assistant_api_key" name="ai_assistant_api_key" value="<mt:Var name="ai_assistant_api_key" encode_html="1"/>" class="form-control" />
+<mt:If name="ai_assistant_api_key">
+<div class="form-static">
+  <mt:Var name="masked_ai_assistant_api_key" />
+  <button type="button" class="btn btn-link" id="edit_ai_assistant_api_key">
+    <__trans phrase="Update API Key">
+  </button>
+</div>
+</mt:If>
+<input type="hidden" id="ai_assistant_api_key" name="ai_assistant_api_key" class="form-control" disabled/>
 </mtapp:setting>
 
 <mtapp:setting

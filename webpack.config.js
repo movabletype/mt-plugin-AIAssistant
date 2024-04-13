@@ -11,6 +11,7 @@ module.exports = async function (_, env) {
     devtool: isProd ? "source-map" : "inline-source-map",
     entry: {
       "edit_entry.min": ["./mt-static/plugins/AIAssistant/src/edit_entry.ts"],
+      "system_config.min": ["./mt-static/plugins/AIAssistant/src/system_config.ts"],
     },
     resolve: {
       extensions: [".js", ".jsx", ".ts", ".tsx"],

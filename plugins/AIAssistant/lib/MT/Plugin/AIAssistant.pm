@@ -107,6 +107,29 @@ sub template_param_edit_entry {
     );
 }
 
+sub template_param_ai_assistant_system_config {
+    my ( $cb, $app, $tmpl ) = @_;
+
+    return unless api_key();
+
+    my $tail = substr( api_key(), -4 );
+    if ($tail =~ m/\A[0-9A-Fa-z]+\z/) {
+        $$tmpl =~ s{\A}{<mt:SetVarBlock name="masked_ai_assistant_api_key">********$tail</mt:SetVarBlock>};
+    }
+}
+
+sub save_config_filter {
+    my ( $cb, $plugin, $data, $scope ) = @_;
+
+    return 1 unless $scope eq 'system';
+
+    if ( !defined( $data->{ai_assistant_api_key} ) ) {
+        $data->{ai_assistant_api_key} = api_key();    # keep the current value
+    }
+
+    1;
+}
+
 sub generate_title {
     my ($app) = @_;
 
