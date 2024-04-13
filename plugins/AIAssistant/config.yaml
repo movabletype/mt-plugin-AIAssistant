@@ -1,6 +1,6 @@
 id: AIAssistant
 name: AIAssistant
-version: 1.0.1
+version: 1.0.2
 
 description: <__trans phrase="Provides AI-based utility functions. This plugin is powered by ChatGPT API.">
 author_name: Six Apart Ltd.
